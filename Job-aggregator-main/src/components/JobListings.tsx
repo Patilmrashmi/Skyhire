@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { MapPin, Clock, DollarSign } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { MapPin, Clock, DollarSign, Star, BookmarkIcon } from 'lucide-react';
 
-export const jobs = [
+export let jobs = [
   {
     id: 1,
     title: "Senior Product Designer",
@@ -11,7 +11,8 @@ export const jobs = [
     salary: "$120k - $150k",
     type: "Full-time",
     posted: "2 days ago",
-    tags: ["UI/UX", "Figma", "Design Systems"]
+    tags: ["UI/UX", "Figma", "Design Systems"],
+    bookmarked: false
   },
   {
     id: 2,
@@ -22,7 +23,8 @@ export const jobs = [
     salary: "$90k - $120k",
     type: "Full-time",
     posted: "1 day ago",
-    tags: ["React", "TypeScript", "Tailwind"]
+    tags: ["React", "TypeScript", "Tailwind"],
+    bookmarked: false
   },
   {
     id: 3,
@@ -33,7 +35,8 @@ export const jobs = [
     salary: "$130k - $160k",
     type: "Full-time",
     posted: "3 days ago",
-    tags: ["Product Strategy", "Agile", "B2B"]
+    tags: ["Product Strategy", "Agile", "B2B"],
+    bookmarked: false
   },
   {
     id: 4,
@@ -44,7 +47,8 @@ export const jobs = [
     salary: "$130k - $160k",
     type: "Full-time",
     posted: "3 days ago",
-    tags: ["Product Strategy", "Agile", "B2B"]
+    tags: ["Product Strategy", "Agile", "B2B"],
+    bookmarked: false
   },
   {
     id: 5,
@@ -55,7 +59,8 @@ export const jobs = [
     salary: "$130k - $160k",
     type: "Full-time",
     posted: "3 days ago",
-    tags: ["Product Strategy", "Agile", "B2B"]
+    tags: ["Product Strategy", "Agile", "B2B"],
+    bookmarked: false
   },
   {
     id: 6,
@@ -66,7 +71,8 @@ export const jobs = [
     salary: "$130k - $160k",
     type: "Full-time",
     posted: "3 days ago",
-    tags: ["Product Strategy", "Agile", "B2B"]
+    tags: ["Product Strategy", "Agile", "B2B"],
+    bookmarked: false
   },
   {
     id: 7,
@@ -77,7 +83,8 @@ export const jobs = [
     salary: "$140k - $170k",
     type: "Full-time",
     posted: "4 days ago",
-    tags: ["UI/UX", "Interaction Design", "User Research"]
+    tags: ["UI/UX", "Interaction Design", "User Research"],
+    bookmarked: false
   },
   {
     id: 8,
@@ -88,7 +95,8 @@ export const jobs = [
     salary: "$160k - $200k",
     type: "Full-time",
     posted: "5 days ago",
-    tags: ["Leadership", "Software Architecture", "Agile"]
+    tags: ["Leadership", "Software Architecture", "Agile"],
+    bookmarked: false
   },
   {
     id: 9,
@@ -99,7 +107,8 @@ export const jobs = [
     salary: "$110k - $140k",
     type: "Full-time",
     posted: "6 days ago",
-    tags: ["Data Analysis", "SQL", "Python"]
+    tags: ["Data Analysis", "SQL", "Python"],
+    bookmarked: false
   },
   {
     id: 10,
@@ -110,7 +119,8 @@ export const jobs = [
     salary: "$130k - $160k",
     type: "Full-time",
     posted: "7 days ago",
-    tags: ["DevOps", "AWS", "Docker"]
+    tags: ["DevOps", "AWS", "Docker"],
+    bookmarked: false
   },
   {
     id: 11,
@@ -121,7 +131,8 @@ export const jobs = [
     salary: "$150k - $180k",
     type: "Full-time",
     posted: "8 days ago",
-    tags: ["Security", "Cybersecurity", "Penetration Testing"]
+    tags: ["Security", "Cybersecurity", "Penetration Testing"],
+    bookmarked: false
   },
   {
     id: 12,
@@ -132,7 +143,8 @@ export const jobs = [
     salary: "$170k - $210k",
     type: "Full-time",
     posted: "9 days ago",
-    tags: ["Machine Learning", "Python", "TensorFlow"]
+    tags: ["Machine Learning", "Python", "TensorFlow"],
+    bookmarked: false
   },
   {
     id: 13,
@@ -143,7 +155,8 @@ export const jobs = [
     salary: "$120k - $150k",
     type: "Full-time",
     posted: "10 days ago",
-    tags: ["Mobile Development", "iOS", "Android"]
+    tags: ["Mobile Development", "iOS", "Android"],
+    bookmarked: false
   },
   {
     id: 14,
@@ -154,7 +167,8 @@ export const jobs = [
     salary: "$100k - $130k",
     type: "Full-time",
     posted: "11 days ago",
-    tags: ["Game Development", "C++", "Unity"]
+    tags: ["Game Development", "C++", "Unity"],
+    bookmarked: false
   },
   {
     id: 15,
@@ -165,7 +179,8 @@ export const jobs = [
     salary: "$180k - $220k",
     type: "Full-time",
     posted: "12 days ago",
-    tags: ["Cloud Architecture", "AWS", "Azure"]
+    tags: ["Cloud Architecture", "AWS", "Azure"],
+    bookmarked: false
   }
 ];
 
@@ -173,6 +188,29 @@ const JOBS_PER_PAGE = 9;
 
 export default function JobListings({ jobTitle = '', location = '' }) {
     const [currentPage, setCurrentPage] = useState(1);
+    const [bookmarkedJobs, setBookmarkedJobs] = useState(() => {
+      const storedBookmarks = localStorage.getItem('bookmarkedJobs');
+      return storedBookmarks ? JSON.parse(storedBookmarks) : [];
+    });
+
+    useEffect(() => {
+      localStorage.setItem('bookmarkedJobs', JSON.stringify(bookmarkedJobs));
+    }, [bookmarkedJobs]);
+
+    const toggleBookmark = (jobId) => {
+      setBookmarkedJobs((prevBookmarkedJobs) => {
+        const jobIdNum = Number(jobId);
+        if (prevBookmarkedJobs.includes(jobIdNum)) {
+          return prevBookmarkedJobs.filter((id) => id !== jobIdNum);
+        } else {
+          return [...prevBookmarkedJobs, jobIdNum];
+        }
+      });
+    };
+
+    const isBookmarked = (jobId) => {
+      return bookmarkedJobs.includes(Number(jobId));
+    };
 
     const filteredJobs = jobs.filter((job) => {
       const titleMatch = job.title.toLowerCase().includes(jobTitle.toLowerCase());
@@ -200,7 +238,7 @@ export default function JobListings({ jobTitle = '', location = '' }) {
           {currentJobs.map((job) => (
             <div
               key={job.id}
-              className="bg-white rounded-2xl p-8 border border-pink-100 hover:border-pink-300 hover:shadow-2xl transition-all duration-200"
+              className="bg-white rounded-2xl p-8 border border-pink-100 hover:border-pink-300 hover:shadow-2xl transition-all duration-200 relative"
             >
               <div className="flex items-start justify-between mb-6">
                 <img
@@ -244,9 +282,17 @@ export default function JobListings({ jobTitle = '', location = '' }) {
                 ))}
               </div>
 
-              <button className="w-full px-6 py-3 rounded-xl bg-gradient-to-r from-pink-500 to-rose-400 text-white font-medium hover:opacity-90 transition-opacity">
-                Apply Now
-              </button>
+              <div className="flex justify-end">
+                <button
+                  onClick={() => toggleBookmark(job.id)}
+                  className={`p-2 rounded-full ${isBookmarked(job.id) ? 'bg-pink-200' : 'bg-gray-200'} hover:bg-pink-300 transition-colors duration-200`}
+                >
+                  <BookmarkIcon className="h-5 w-5" />
+                </button>
+                <button className="w-full px-6 py-3 rounded-xl bg-gradient-to-r from-pink-500 to-rose-400 text-white font-medium hover:opacity-90 transition-opacity ml-2">
+                  Apply Now
+                </button>
+              </div>
             </div>
           ))}
         </div>
@@ -289,4 +335,19 @@ export default function JobListings({ jobTitle = '', location = '' }) {
         </div>
       </div>
     );
+  }
+
+  function toggleBookmark(jobId) {
+    setBookmarkedJobs((prevBookmarkedJobs) => {
+      const jobIdNum = Number(jobId);
+      if (prevBookmarkedJobs.includes(jobIdNum)) {
+        return prevBookmarkedJobs.filter((id) => id !== jobIdNum);
+      } else {
+        return [...prevBookmarkedJobs, jobIdNum];
+      }
+    });
+  }
+
+  function isBookmarked(jobId) {
+    return bookmarkedJobs.includes(Number(jobId));
   }

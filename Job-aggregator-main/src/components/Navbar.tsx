@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom"; // Add Link import
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../components/firebase";
 import { FaUserCircle } from "react-icons/fa";
@@ -29,10 +29,13 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <nav className="bg-white shadow-md px-6 py-4 flex justify-between items-center">
-      <Link to="/" className="text-xl font-bold text-pink-500">Job Portal</Link>
+    <nav className="bg-white shadow-md px-2 py-4 flex justify-between items-center">
+      <Link to="/" className="flex flex-col items-center">
+        <img src="/icon.jpg" alt="SkyHire Icon" className="h-6 w-6 rounded-full" />
+        <span className="mt-0.5 text-xs font-bold text-pink-500">SKY-HIRE</span>
+      </Link>
 
-      <div>
+      <div className="flex items-center">
         {user ? (
           <div className="relative">
             <button
@@ -62,7 +65,16 @@ const Navbar: React.FC = () => {
             )}
           </div>
         ) : (
-          <Link to="/login" className="text-pink-500 hover:text-pink-600">Login / Signup</Link>
+          <>
+            <Link to="/login">
+              <button className="bg-pink-500 text-white font-semibold px-4 py-2 rounded-md hover:bg-pink-600 transition-colors duration-200 shadow-md">
+                Login / Signup
+              </button>
+            </Link>
+            <Link to="/bookmarked-jobs" className="text-pink-500 hover:text-pink-600 ml-4">
+              Bookmarks
+            </Link>
+          </>
         )}
       </div>
     </nav>
