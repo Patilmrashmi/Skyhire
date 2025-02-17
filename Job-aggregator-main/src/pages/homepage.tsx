@@ -1,8 +1,8 @@
-import Navbar from '.././components/Navbar';
-import HeroSection from '.././components/HeroSection';
-import JobCategories from '.././components/JobCategories';
-import FeaturedJobs from '.././components/FeaturedJobs';
-
+// filepath: /d:/JB/Job-aggregator-main - Copy/Job-aggregator-main/src/pages/homepage.tsx
+import Navbar from '../components/Navbar';
+import HeroSection from '../components/HeroSection';
+import JobCategories from '../components/JobCategories';
+import FeaturedJobs from '../components/FeaturedJobs';
 
 function Homepage() {
   return (
@@ -56,7 +56,7 @@ function Homepage() {
         </div>
       </footer>
     </div>
-  )
+  );
 }
 
-export default Homepage
+export default Homepage;

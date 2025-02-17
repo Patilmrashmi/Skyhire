@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
 import { MapPin, Clock, DollarSign } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const jobs = [
   {
@@ -34,142 +34,21 @@ const jobs = [
     type: "Full-time",
     posted: "3 days ago",
     tags: ["Product Strategy", "Agile", "B2B"]
-  },
-  {
-    id: 4,
-    title: "Backend Developer",
-    company: "Google",
-    logo: "https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?w=128&h=128&fit=crop",
-    location: "New York, NY",
-    salary: "$130k - $160k",
-    type: "Full-time",
-    posted: "3 days ago",
-    tags: ["Product Strategy", "Agile", "B2B"]
-  },
-  {
-    id: 5,
-    title: "Data Scientist",
-    company: "Amazon",
-    logo: "https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?w=128&h=128&fit=crop",
-    location: "New York, NY",
-    salary: "$130k - $160k",
-    type: "Full-time",
-    posted: "3 days ago",
-    tags: ["Product Strategy", "Agile", "B2B"]
-  },
-  {
-    id: 6,
-    title: "Software Engineer",
-    company: "Microsoft",
-    logo: "https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?w=128&h=128&fit=crop",
-    location: "New York, NY",
-    salary: "$130k - $160k",
-    type: "Full-time",
-    posted: "3 days ago",
-    tags: ["Product Strategy", "Agile", "B2B"]
-  },
-  {
-    id: 7,
-    title: "UX Designer",
-    company: "Apple",
-    logo: "https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?w=128&h=128&fit=crop",
-    location: "San Francisco, CA",
-    salary: "$140k - $170k",
-    type: "Full-time",
-    posted: "4 days ago",
-    tags: ["UI/UX", "Interaction Design", "User Research"]
-  },
-  {
-    id: 8,
-    title: "Technical Lead",
-    company: "Netflix",
-    logo: "https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?w=128&h=128&fit=crop",
-    location: "Los Angeles, CA",
-    salary: "$160k - $200k",
-    type: "Full-time",
-    posted: "5 days ago",
-    tags: ["Leadership", "Software Architecture", "Agile"]
-  },
-  {
-    id: 9,
-    title: "Data Analyst",
-    company: "Facebook",
-    logo: "https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?w=128&h=128&fit=crop",
-    location: "Menlo Park, CA",
-    salary: "$110k - $140k",
-    type: "Full-time",
-    posted: "6 days ago",
-    tags: ["Data Analysis", "SQL", "Python"]
-  },
-  {
-    id: 10,
-    title: "DevOps Engineer",
-    company: "Amazon",
-    logo: "https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?w=128&h=128&fit=crop",
-    location: "Seattle, WA",
-    salary: "$130k - $160k",
-    type: "Full-time",
-    posted: "7 days ago",
-    tags: ["DevOps", "AWS", "Docker"]
-  },
-  {
-    id: 11,
-    title: "Security Engineer",
-    company: "Google",
-    logo: "https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?w=128&h=128&fit=crop",
-    location: "Mountain View, CA",
-    salary: "$150k - $180k",
-    type: "Full-time",
-    posted: "8 days ago",
-    tags: ["Security", "Cybersecurity", "Penetration Testing"]
-  },
-  {
-    id: 12,
-    title: "Machine Learning Engineer",
-    company: "Microsoft",
-    logo: "https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?w=128&h=128&fit=crop",
-    location: "Redmond, WA",
-    salary: "$170k - $210k",
-    type: "Full-time",
-    posted: "9 days ago",
-    tags: ["Machine Learning", "Python", "TensorFlow"]
-  },
-  {
-    id: 13,
-    title: "Mobile Developer",
-    company: "Facebook",
-    logo: "https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?w=128&h=128&fit=crop",
-    location: "Menlo Park, CA",
-    salary: "$120k - $150k",
-    type: "Full-time",
-    posted: "10 days ago",
-    tags: ["Mobile Development", "iOS", "Android"]
-  },
-  {
-    id: 14,
-    title: "Game Developer",
-    company: "Activision Blizzard",
-    logo: "https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?w=128&h=128&fit=crop",
-    location: "Santa Monica, CA",
-    salary: "$100k - $130k",
-    type: "Full-time",
-    posted: "11 days ago",
-    tags: ["Game Development", "C++", "Unity"]
-  },
-  {
-    id: 15,
-    title: "Cloud Architect",
-    company: "Amazon",
-    logo: "https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?w=128&h=128&fit=crop",
-    location: "Seattle, WA",
-    salary: "$180k - $220k",
-    type: "Full-time",
-    posted: "12 days ago",
-    tags: ["Cloud Architecture", "AWS", "Azure"]
   }
+  // Add other jobs here...
 ];
 
 export default function FeaturedJobs() {
+  const navigate = useNavigate();
+
+  const handleApplyClick = (jobId) => {
+    navigate(`/apply/${jobId}`);
+  };
+
+  const handleViewAllJobsClick = () => {
+    navigate('/all-jobs');
+  };
+
   return (
     <section className="py-24 bg-featured-job-bg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -182,16 +61,16 @@ export default function FeaturedJobs() {
               Discover your next career move with our curated job listings
             </p>
           </div>
-          <Link
-            to="/all-jobs"
+          <button
             className="text-pink-500 font-medium hover:text-pink-600"
+            onClick={handleViewAllJobsClick}
           >
             View all jobs →
-          </Link>
+          </button>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {jobs.slice(0, 3).map((job) => (
+          {jobs.map((job) => (
             <div
               key={job.id}
               className="bg-white rounded-2xl p-8 border border-pink-100 hover:border-pink-200 hover:shadow-xl transition-all duration-200"
@@ -238,7 +117,10 @@ export default function FeaturedJobs() {
                 ))}
               </div>
 
-              <button className="w-full px-6 py-3 rounded-xl bg-gradient-to-r from-pink-500 to-rose-400 text-white font-medium hover:opacity-90 transition-opacity">
+              <button
+                className="w-full px-6 py-3 rounded-xl bg-gradient-to-r from-pink-500 to-rose-400 text-white font-medium hover:opacity-90 transition-opacity"
+                onClick={() => handleApplyClick(job.id)}
+              >
                 Apply Now
               </button>
             </div>
